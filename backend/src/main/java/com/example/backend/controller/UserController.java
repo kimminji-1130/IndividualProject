@@ -2,23 +2,24 @@ package com.example.backend.controller;
 
 import com.example.backend.domain.User;
 import com.example.backend.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
-@RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000") // 프론트 React 앱과 연동
 public class UserController {
 
     private final UserRepository userRepository;
 
-    @PostMapping
-    public String register(@RequestBody User user) {
-        if (userRepository.existsByEmail(user.getEmail())) {
-            return "이미 가입된 이메일입니다.";
-        }
+    @Autowired
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
+    @PostMapping
+    public String registerUser(@RequestBody User user) {
         userRepository.save(user);
-        return "회원가입 성공";
+        return "User registered: " + user.getNickname();
     }
 }

@@ -11,12 +11,13 @@ export default function RegisterForm({ onSwitch }) {
     e.preventDefault();
 
     // ✅ 백엔드로 POST 요청
-    fetch('http://localhost:8080/api/items', {
+    fetch('http://localhost:8080/api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name: nickname,       // 예: 닉네임 → name 필드에 넣음
-        price: 3000           // 테스트용 하드코딩
+        email,
+        nickname,
+        password
       })
     })
       .then(res => res.text())
